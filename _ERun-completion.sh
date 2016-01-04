@@ -28,10 +28,43 @@ function _find_project_version() {
   done
 }
 
+## usage: _find_project_bin project_name version
+function _find_project_bin() {
+  _project_bins=""
+  ## FIXME: Should use a list of places store in a 'global' variable
+  for root in "$HOME/Work/Projects" "/opt/euclid"
+  do
+    for d in $(/usr/bin/ls "$root")
+    do
+      if [ $d == $1 ]
+      then
+	for sd in $(/usr/bin/ls "$root/$d")
+	do
+	    if [ $sd == $2 ]
+	    then
+
+		for bin in "bin" "scripts"
+		do
+			dir=$root/$d/$sd/InstallArea/x86_64*/$bin
+			for file in $(/usr/bin/ls $dir)
+			do
+				if [ -x $dir/$file ]
+				then
+					_project_bins="$_project_bins $file"
+				fi
+			done
+		done
+	    fi
+	done
+      fi
+    done
+  done
+}
+
 _ERun() 
 {
     ## Set local variables
-    local cur prev opts _projects cmd
+    local cur prev opts _projects
 
     ## Init
     COMPREPLY=()
@@ -41,8 +74,6 @@ _ERun()
     prev="${COMP_WORDS[COMP_CWORD-1]}"
     ## Set of available OPTION
     opts="-h --help -i --ignore-environment -u --unset -s --set -a --append -p --prepend -x --xml --sh --csh --py --verbose --debug --quiet -b --platform --dev-dir --user-area --no-user-area --runtime-project --overriding-project --no-auto-override --profile"
-    ## Set of possible command line
-    cmd="CreateElementsProject AddElementsModule AddCppClass AddCppProgram AddPythonModule AddPythonProgram"
     ## Custom options for each command
     _CreateElementsProject_opts="--help --dependency --config-file --log-file --log-level --version"
 
@@ -53,7 +84,7 @@ _ERun()
         _list_folder $dir
         _projects="$_projects $_lst_folder_"
     done
- 
+
     ## Test if current begin by "-"
     if [[ ${cur} == -* ]]
     then
@@ -64,6 +95,8 @@ _ERun()
         COMPREPLY=( $(compgen -W "${_project_versions}" -- ${cur}))
     elif [[ $prev =~ [0-9.] ]]
     then
+        _find_project_bin "${COMP_WORDS[COMP_CWORD-2]}" $prev
+        local cmd=$_project_bins
         COMPREPLY=( $(compgen -W "${cmd}" -- ${cur}))
     elif [ $prev == "ERun" ]
     then
