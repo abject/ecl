@@ -81,6 +81,6 @@ _ERun()
         ;;
     esac
 
-    COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+    #COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
 }
 complete -F _ERun ERun
