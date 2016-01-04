@@ -1,4 +1,5 @@
 
+## Usgae: _list_folder folder_path
 function _list_folder() {
   _lst_folder_=""
   for d in $(/usr/bin/ls "$1")
@@ -10,6 +11,7 @@ function _list_folder() {
   done
 }
 
+## Usage: _find_project_version project_name
 function _find_project_version() {
   _project_versions=""
   ## FIXME: Should use a list of places store in a 'global' variable
