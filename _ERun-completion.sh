@@ -47,13 +47,16 @@ function _find_project_bin() {
 		for bin in "${bin_places[@]}"
 		do
 			dir=$root/$d/$sd/$ECL_COMP_INSTALL_AREA/$bin
-			for file in $($LS_BIN $dir)
-			do
-				if [ -x $dir/$file ]
-				then
-					_project_bins="$_project_bins $file"
-				fi
-			done
+			if [ -d $dir ]
+			then
+				for file in $($LS_BIN $dir)
+				do
+					if [ -x $dir/$file ]
+					then
+						_project_bins="$_project_bins $file"
+					fi
+				done
+			fi
 		done
 	    fi
 	done
