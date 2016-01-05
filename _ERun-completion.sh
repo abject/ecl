@@ -37,29 +37,29 @@ function _find_project_bin() {
     do
         for d in $($LS_BIN "$root")
         do
-          if [ $d == $project_name ]
-          then
-              for sd in $($LS_BIN "$root/$d")
-              do
-                  if [ $sd == $version ]
-                  then
-                      for bin in "${bin_places[@]}"
-                      do
-                          dir=$root/$d/$sd/$ECL_COMP_INSTALL_AREA/$bin
-                          if [ -d $dir ]
-                          then
-                              for file in $($LS_BIN $dir)
-                              do
-                                  if [ -x $dir/$file ]
-                                  then
-                                      _project_bins="$_project_bins $file"
-                                  fi
-                              done
-                          fi
-                      done
-                  fi
-              done
-          fi
+            if [ $d == $project_name ]
+            then
+                for sd in $($LS_BIN "$root/$d")
+                do
+                    if [ $sd == $version ]
+                    then
+                        for bin in "${bin_places[@]}"
+                        do
+                            dir=$root/$d/$sd/$ECL_COMP_INSTALL_AREA/$bin
+                            if [ -d $dir ]
+                            then
+                                for file in $($LS_BIN $dir)
+                                do
+                                    if [ -x $dir/$file ]
+                                    then
+                                        _project_bins="$_project_bins $file"
+                                    fi
+                                done
+                            fi
+                        done
+                    fi
+                done
+            fi
         done
     done
 }
