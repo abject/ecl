@@ -85,7 +85,7 @@ _ERun()
         _projects="$_projects $_lst_folder_"
     done
 
-    ## Test if current begin by "-"
+    ## Test current and previous command line argument to make completion
     if [[ ${cur} == -* ]]
     then
         COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
@@ -108,14 +108,8 @@ _ERun()
 	    COMPREPLY=( "<PROJECT_NAME> <VERSION>" $(compgen -W "${_CreateElementsProject_opts}" -- ${cur} ))
             return 0
             ;;
-        #hostname)
-	    #COMPREPLY=( $(compgen -A hostname ${cur}) )
-            #return 0
-            #;;
         *)
         ;;
     esac
-
-    #COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
 }
 complete -F _ERun ERun
