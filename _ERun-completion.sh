@@ -43,7 +43,7 @@ function _find_project_bin() {
 
 		for bin in "bin" "scripts"
 		do
-			dir=$root/$d/$sd/InstallArea/x86_64*/$bin
+			dir=$root/$d/$sd/$ECL_COMP_INSTALL_AREA/$bin
 			for file in $($LS_BIN $dir)
 			do
 				if [ -x $dir/$file ]
@@ -65,6 +65,7 @@ _ERun()
     local cur prev opts _projects _CreateElementsProject_opts
     local LS_BIN="/usr/bin/ls"
     local ECL_COMP_PROJECT_PLACE=("$HOME/Work/Projects" "/opt/euclid")
+    local ECL_COMP_INSTALL_AREA="InstallArea/x86_64*"
 
     ## Init
     COMPREPLY=()
