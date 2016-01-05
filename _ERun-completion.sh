@@ -103,6 +103,9 @@ _ERun()
         COMPREPLY=( $(compgen -W "${_projects}" ${cur} ) )
     fi
 
+    ## Case over last argument option and usage
+    ## TODO: make all the option available for all cases
+    ## FIXME: Is it necessary at this moment?
     case "${prev}" in
 	CreateElementsProject)
 	    COMPREPLY=( "<PROJECT_NAME> <VERSION>" $(compgen -W "${_CreateElementsProject_opts}" -- ${cur} ))
@@ -112,4 +115,6 @@ _ERun()
         ;;
     esac
 }
+
+## Make completion works for ERun command line
 complete -F _ERun ERun
