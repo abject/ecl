@@ -62,9 +62,9 @@ function _find_project_bin() {
 _ERun() 
 {
     ## Set local variables
-    local cur prev opts _projects
-    ECL_COMP_PROJECT_PLACE=("$HOME/Work/Projects" "/opt/euclid")
+    local cur prev opts _projects _CreateElementsProject_opts
     local LS_BIN="/usr/bin/ls"
+    local ECL_COMP_PROJECT_PLACE=("$HOME/Work/Projects" "/opt/euclid")
 
     ## Init
     COMPREPLY=()
