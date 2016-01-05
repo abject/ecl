@@ -27,21 +27,24 @@ function _find_project_version() {
   done
 }
 
-## Usage: _find_project_bin project_name version
+## Usage: _find_project_bin project_name version bin_place [bin_place...]
 function _find_project_bin() {
   _project_bins=""
+  local project_name=$1
+  local version=$2
+  local bin_places=(${@:3})
   for root in "${ECL_COMP_PROJECT_PLACE[@]}"
   do
     for d in $($LS_BIN "$root")
     do
-      if [ $d == $1 ]
+      if [ $d == $project_name ]
       then
 	for sd in $($LS_BIN "$root/$d")
 	do
-	    if [ $sd == $2 ]
+	    if [ $sd == $version ]
 	    then
 
-		for bin in "bin" "scripts"
+		for bin in "${bin_places[@]}"
 		do
 			dir=$root/$d/$sd/$ECL_COMP_INSTALL_AREA/$bin
 			for file in $($LS_BIN $dir)
@@ -65,6 +68,8 @@ _ERun()
     local cur prev opts _projects _CreateElementsProject_opts
     local LS_BIN="/usr/bin/ls"
     local ECL_COMP_PROJECT_PLACE=("$HOME/Work/Projects" "/opt/euclid")
+    local ECL_COMP_PROJECT_ELEMENTS_BIN_PLACE=("scripts")
+    local ECL_COMP_PROJECT_BIN_PLACE=("bin" "scripts")
     local ECL_COMP_INSTALL_AREA="InstallArea/x86_64*"
 
     ## Init
@@ -95,7 +100,12 @@ _ERun()
         COMPREPLY=( $(compgen -W "${_project_versions}" -- ${cur}))
     elif [[ $prev =~ [0-9.] ]]
     then
-        _find_project_bin "${COMP_WORDS[COMP_CWORD-2]}" $prev
+	BIN_PLACES=$ECL_COMP_PROJECT_PLACE
+	if [ "${COMP_WORDS[COMP_CWORD-2]}" == "Elements" ]
+	then
+		BIN_PLACES=$ECL_COMP_PROJECT_ELEMENTS_BIN_PLACE
+	fi
+        _find_project_bin "${COMP_WORDS[COMP_CWORD-2]}" $prev "${BIN_PLACES[@]}"
         local cmd=$_project_bins
         COMPREPLY=( $(compgen -W "${cmd}" -- ${cur}))
     elif [ $prev == "ERun" ]
