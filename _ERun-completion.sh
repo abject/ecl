@@ -14,8 +14,7 @@ function _list_folder() {
 ## Usage: _find_project_version project_name
 function _find_project_version() {
   _project_versions=""
-  ## FIXME: Should use a list of places store in a 'global' variable
-  for root in "$HOME/Work/Projects" "/opt/euclid"
+  for root in "${ECL_COMP_PROJECT_PLACE[@]}"
   do
     for d in $(/usr/bin/ls "$root")
     do
@@ -28,11 +27,10 @@ function _find_project_version() {
   done
 }
 
-## usage: _find_project_bin project_name version
+## Usage: _find_project_bin project_name version
 function _find_project_bin() {
   _project_bins=""
-  ## FIXME: Should use a list of places store in a 'global' variable
-  for root in "$HOME/Work/Projects" "/opt/euclid"
+  for root in "${ECL_COMP_PROJECT_PLACE[@]}"
   do
     for d in $(/usr/bin/ls "$root")
     do
@@ -65,6 +63,7 @@ _ERun()
 {
     ## Set local variables
     local cur prev opts _projects
+    ECL_COMP_PROJECT_PLACE=("$HOME/Work/Projects" "/opt/euclid")
 
     ## Init
     COMPREPLY=()
@@ -78,8 +77,7 @@ _ERun()
     _CreateElementsProject_opts="--help --dependency --config-file --log-file --log-level --version"
 
     ## Get list of all projets only once
-    ## FIXME: Should use a list of places store in a 'global' variable
-    for dir in "$HOME/Work/Projects" "/opt/euclid"
+    for dir in "${ECL_COMP_PROJECT_PLACE[@]}"
     do
         _list_folder $dir
         _projects="$_projects $_lst_folder_"
@@ -118,3 +116,4 @@ _ERun()
 
 ## Make completion works for ERun command line
 complete -F _ERun ERun
+
