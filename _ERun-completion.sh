@@ -2,7 +2,7 @@
 ## Usgae: _list_folder folder_path
 function _list_folder() {
   _lst_folder_=""
-  for d in $(/usr/bin/ls "$1")
+  for d in $($LS_BIN "$1")
   do
     if [ -d $1/$d ]
     then
@@ -16,7 +16,7 @@ function _find_project_version() {
   _project_versions=""
   for root in "${ECL_COMP_PROJECT_PLACE[@]}"
   do
-    for d in $(/usr/bin/ls "$root")
+    for d in $($LS_BIN "$root")
     do
       if [ $d == $1 ]
       then
@@ -32,11 +32,11 @@ function _find_project_bin() {
   _project_bins=""
   for root in "${ECL_COMP_PROJECT_PLACE[@]}"
   do
-    for d in $(/usr/bin/ls "$root")
+    for d in $($LS_BIN "$root")
     do
       if [ $d == $1 ]
       then
-	for sd in $(/usr/bin/ls "$root/$d")
+	for sd in $($LS_BIN "$root/$d")
 	do
 	    if [ $sd == $2 ]
 	    then
@@ -44,7 +44,7 @@ function _find_project_bin() {
 		for bin in "bin" "scripts"
 		do
 			dir=$root/$d/$sd/InstallArea/x86_64*/$bin
-			for file in $(/usr/bin/ls $dir)
+			for file in $($LS_BIN $dir)
 			do
 				if [ -x $dir/$file ]
 				then
@@ -64,6 +64,7 @@ _ERun()
     ## Set local variables
     local cur prev opts _projects
     ECL_COMP_PROJECT_PLACE=("$HOME/Work/Projects" "/opt/euclid")
+    local LS_BIN="/usr/bin/ls"
 
     ## Init
     COMPREPLY=()
