@@ -68,7 +68,7 @@ _ERun()
 {
     ## Set local variables
     local cur prev opts _projects _CreateElementsProject_opts
-    local LS_BIN="/usr/bin/ls"
+    local LS_BIN=$(which ls | grep -v alias | tr -d [[:space:]])
     local ECL_COMP_PROJECT_PLACE=("$HOME/Work/Projects" "/opt/euclid")
     local ECL_COMP_PROJECT_ELEMENTS_BIN_PLACE=("scripts")
     local ECL_COMP_PROJECT_BIN_PLACE=("bin" "scripts")
