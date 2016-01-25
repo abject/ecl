@@ -69,10 +69,13 @@ _ERun()
     ## Set local variables
     local cur prev opts _projects _CreateElementsProject_opts
     local LS_BIN=$(which ls | grep -v alias | tr -d [[:space:]])
-    local ECL_COMP_PROJECT_PLACE=("$HOME/Work/Projects" "/opt/euclid")
+    local ECL_COMP_PROJECT_PLACE=()
     local ECL_COMP_PROJECT_ELEMENTS_BIN_PLACE=("scripts")
     local ECL_COMP_PROJECT_BIN_PLACE=("bin" "scripts")
     local ECL_COMP_INSTALL_AREA="InstallArea/x86_64*"
+
+    ## Read Project place from CMAKE_PROJECT_PATH variable and create an array
+    IFS=':' read -a ECL_COMP_PROJECT_PLACE <<< "$CMAKE_PROJECT_PATH"
 
     ## Init
     COMPREPLY=()
